@@ -1,0 +1,30 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.10'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'com.lambda.demo'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+}
+
+
+task buildZip(type: Zip) {
+	println "build...."
+	from compileJava
+	from processResources
+	into('lib') {
+		from configurations.runtimeClasspath
+	}
+}
+
+dependencies {
+	implementation 'com.amazonaws:aws-lambda-java-core:1.2.2'
+	implementation 'com.amazonaws:aws-lambda-java-events:3.11.1'
+	runtimeOnly 'com.amazonaws:aws-lambda-java-log4j2:1.5.1'
+	implementation group: 'com.amazonaws', name: 'aws-java-sdk-lambda', version: '1.11.118'
+}
